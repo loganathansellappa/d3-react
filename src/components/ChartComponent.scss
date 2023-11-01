@@ -1,0 +1,61 @@
+/* Chart container styles */
+.chart-container {
+    position: relative;
+}
+
+/* Tooltip styles */
+/* ChartComponent.css */
+.tooltip {
+    position: absolute;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    z-index: 999;
+    white-space: nowrap; /* Prevent line breaks within rows */
+}
+
+.tooltip div {
+    margin: 5px 0; /* Add some spacing between rows */
+}
+
+.tooltip:after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 10px 10px 0;
+    border-color: #fff transparent transparent transparent;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Crosshair styles */
+.crossline {
+    stroke: #aaa;
+    stroke-dasharray: 3 3;
+    pointer-events: none;
+}
+
+.crossline-x {
+    stroke-width: 1;
+}
+
+.crossline-y {
+    stroke-width: 1;
+}
+
+/* Candle chart styles */
+.candle-up {
+    fill: green;
+    stroke: green;
+}
+
+.candle-down {
+    fill: red;
+    stroke: red;
+}
+
+/* Add more styles as needed for your specific chart component */

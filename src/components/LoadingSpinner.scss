@@ -1,0 +1,20 @@
+$spinner-color: #0073e6;
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    border: 6px solid $spinner-color;
+    border-top: 6px solid transparent;
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
+}
