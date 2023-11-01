@@ -1,23 +1,25 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import './ChartComponent.scss';
-interface StockChartProps {
-    data: { [date: string]: { open: string; high: string; low: string; close: string; volume: string } };
+interface ChartProps {
+    data: Array<{ open: string; high: string; low: string; close: string; volume: string }>;
+    name?: string;
 }
 
-export const ChartComponent: React.FC<StockChartProps> = ({ data }) => {
+export const ChartComponent: React.FC<ChartProps> = ({ data }) => {
+    const chartRef = useRef(null);
     const chartContainerRef = useRef(null);
     const svgRef = useRef<SVGSVGElement | null>(null);
 
     useEffect(() => {
+        if(!data) return;
         // Set dimensions and margins for the chart
-        const margin = { top: 70, right: 60, bottom: 50, left: 0 };
+        const margin = { top: 100, right: 60, bottom: 10, left: 10 };
         const width = 1600 - margin.left - margin.right;
         const height = 800 - margin.top - margin.bottom;
 
-        // Set up the x and y scales
         const x = d3.scaleTime().range([0, width]);
-        const yRight = d3.scaleLinear().range([height, 0]);
+        const y = d3.scaleLinear().range([height, 0]);
 
         const svg = d3.select(chartContainerRef.current).select('svg');
 
@@ -28,31 +30,46 @@ export const ChartComponent: React.FC<StockChartProps> = ({ data }) => {
                 .select(chartContainerRef.current)
                 .append('svg')
                 .attr('width', width + margin.left + margin.right)
-                .attr('height', height + margin.top + margin.bottom);
-
+                .attr('height', height + margin.top + margin.bottom)
             svgRef.current = newSvg.node();
         }
 
+        svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
 
-        // Create the SVG element and append it to the chart container
-        // const svg = d3.select(chartContainerRef.current)
-        //     .append("svg")
-        //     .attr("width", width + margin.left + margin.right)
-        //     .attr("height", height + margin.top + margin.bottom)
-        //     .append("g")
-        //     .attr("transform", `translate(${margin.left},${margin.top})`);
+        const tooltip = d3.select(chartRef.current)
+            .append("div")
+            .attr("class", "tooltip");
 
-        // Parse the Date and convert the Close to a number
-        const parseDate = d3.timeParse("%Y-%m-%d");
-        const stockData = Object.entries(data).map(([date, values]) => ({
-            Date: parseDate(date),
-            Close: +values.close,
-            Data: values, // Store the entire data object
-        }));
+        // Create a  tooltip div for raw date
+
+        const tooltipRawDate = d3.select(chartRef.current)
+            .append("div")
+            .attr("class", "tooltip");
+
+        const gradient = svg.append("defs")
+            .append("linearGradient")
+            .attr("id", "gradient")
+            .attr("x1", "0%")
+            .attr("x2", "0%")
+            .attr("y1", "0%")
+            .attr("y2", "100%")
+            .attr("spreadMethod", "pad");
+
+        gradient.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", "#85bb65")
+            .attr("stop-opacity", 1);
+
+        gradient.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", "#85bb65")
+            .attr("stop-opacity", 0);
+
 
         // Set the domains for the x and y scales
-        x.domain(d3.extent(stockData, d => d.Date)!);
-        yRight.domain([d3.min(stockData, d => d.Close)!, d3.max(stockData, d => d.Close)!]);
+        x.domain(d3.extent(data, d => d.Date)!);
+        y.domain([d3.min(data, d => d.Close)!, d3.max(data, d => d.Close)!]);
 
         // Add the x-axis
         svg.append("g")
@@ -62,22 +79,25 @@ export const ChartComponent: React.FC<StockChartProps> = ({ data }) => {
         // Add the right y-axis
         svg.append("g")
             .attr("transform", `translate(${width},0)`)
-            .call(d3.axisRight(yRight).tickFormat(d3.format("$.2f")));
+            .call(d3.axisRight(y).tickFormat(d => {
+                if(isNaN(d as number)) return '';
+                return d3.format(".2f")(d as number);
+            }));
 
         // Set up the line generator
         const line = d3.line()
             .x(d => x(d.Date)!)
-            .y(d => yRight(d.Close)!);
+            .y(d => y(d.Close)!);
 
         // Create an area generator
         const area = d3.area()
             .x(d => x(d.Date)!)
             .y0(height)
-            .y1(d => yRight(d.Close)!);
+            .y1(d => y(d.Close)!);
 
         // Add the area path
         svg.append("path")
-            .datum(stockData)
+            .datum(data)
             .attr("class", "area")
             .attr("d", area)
             .style("fill", "#85bb65")
@@ -85,50 +105,113 @@ export const ChartComponent: React.FC<StockChartProps> = ({ data }) => {
 
         // Add the line path
         svg.append("path")
-            .datum(stockData)
+            .datum(data)
             .attr("class", "line")
             .attr("fill", "none")
             .attr("stroke", "#85bb65")
             .attr("stroke-width", 1)
             .attr("d", line);
 
-        // Create a tooltip for displaying data on mouseover
-        const tooltip = d3.select(chartContainerRef.current)
-            .append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0);
-
-
-
-        svg.selectAll(".data-point")
-            .data(stockData)
-            .enter()
-            .append("circle")
-            .attr("class", "data-point")
-            .attr("cx", d => x(d.Date)!)
-            .attr("cy", d => yRight(d.Close)!)
+        const circle = svg.append("circle")
             .attr("r", 5)
-            .on("mouseover", (event, d) => {
-                const tooltipHTML = Object.entries(d.Data)
-                    .map(([key, value]) => `<div><strong>${key}:</strong> ${value}</div>`)
-                    .join('');
+            .attr("fill", "red")
+            .style("stroke", "white")
+            .attr("opacity", 0.7)
+            .style("pointer-events", "none");
 
-                tooltip.transition()
-                    .duration(200)
-                    .style("opacity", 0.9);
-                tooltip.html(tooltipHTML)
-                    .style('left', `${event.pageX + 10}px`)
-                    .style('top', `${event.pageY - 28}px`);
+        // Add red lines extending from the circle to the date and value
 
-            })
-            .on("mouseout", () => {
-                tooltip.transition()
-                    .duration(500)
-                    .style("opacity", 0);
-            });
+        const tooltipLineX = svg.append("line")
+            .attr("class", "tooltip-line")
+            .attr("id", "tooltip-line-x")
+            .attr("stroke", "red")
+            .attr("stroke-width", 1)
+            .attr("stroke-dasharray", "2,2");
+
+        const tooltipLineY = svg.append("line")
+            .attr("class", "tooltip-line")
+            .attr("id", "tooltip-line-y")
+            .attr("stroke", "red")
+            .attr("stroke-width", 1)
+            .attr("stroke-dasharray", "2,2");
+        const listeningRect = svg.append("rect")
+            .attr("width", width)
+            .attr("height", height);
+
+        listeningRect.on("touchmouse mousemove",(event) => {
+
+            const [xCoord] = d3.pointer(event, this);
+            const dateBisector = d3.bisector(d => d.Date).left;
+            const x0 = x.invert(xCoord);
+            const bisectionIndex = dateBisector(data,x0,1);
+            const d0 = data[bisectionIndex - 1];
+            const d1 = data[bisectionIndex];
+            const d = x0 - d0.Date > d1.Date - x0 ? d1 : d0;
+            const xPos = x(d.Date);
+            const yPos = y(d.Close);
 
 
+            const hoveredIndexData = data[Math.max(0, bisectionIndex)];
+
+            circle.attr("cx", xPos).attr("cy", yPos);
+
+
+            // Add transition for the circle radius
+            circle.transition()
+                .duration(50)
+                .attr("r", 5);
+
+            // Update the position of the red lines
+
+            tooltipLineX.style("display", "block").attr("x1", xPos).attr("x2", xPos).attr("y1", 0).attr("y2", height);
+            tooltipLineY.style("display", "block").attr("y1", yPos).attr("y2", yPos).attr("x1", 0).attr("x2", width);
+
+
+            // add in our tooltip
+
+            tooltip
+                .style("display", "block")
+                .style("left", `${width + 400}px`)
+                .style("top", `${yPos + 180}px`)
+                .html(`$${d.Close !== undefined ? d.Close : 'N/A'}`);
+
+
+            tooltipRawDate
+                .style("display", "block")
+                .style("left", `${xPos + 350}px`)
+                .style("top", `${height + 190}px`)
+                .html(`${d.Date !== undefined ? d.Date.toISOString().slice(0, 10) : 'N/A'}`);
+        });
+
+        // listening rectangle mouse leave function
+
+        listeningRect.on("mouseleave", function () {
+            circle.transition().duration(50).attr("r", 0);
+            tooltip.style("display", "none");
+            tooltipRawDate.style("display", "none");
+            tooltipLineX.attr("x1", 0).attr("x2", 0);
+            tooltipLineY.attr("y1", 0).attr("y2", 0);
+            tooltipLineX.style("display", "none");
+            tooltipLineY.style("display", "none");
+        });
+
+
+        // Add the chart title
+
+        svg .append('text')
+            .attr('class', 'chart-title')
+            .attr('x', width / 2) // Adjust the x-coordinate to center the title
+            .attr('y', margin.top   ) // Adjust the y-coordinate for positioning
+            .style('font-size', '20px')
+            .style('font-weight', 'bold')
+            .style('font-family', 'sans-serif')
+            .text('Nintendo Co., Ltd. (NTDOY)');
     }, [data]);
 
-    return <div ref={chartContainerRef} />;
+
+    return (
+            <div ref={chartRef} >
+                <div className="chart-container" ref={chartContainerRef}/>
+            </div>
+    );
 };

@@ -36,6 +36,7 @@ export const Overview: React.FC = () => {
                     ))}
                     </tbody>
                 </table>
+                <Chart></Chart>
             </div>
         );
     }

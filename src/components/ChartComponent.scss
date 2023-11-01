@@ -1,20 +1,42 @@
 /* Chart container styles */
 .chart-container {
-    position: relative;
+    display: flex;
+    margin-top: 120px;
+    justify-content: center;
 }
 
 /* Tooltip styles */
 /* ChartComponent.css */
+rect {
+    pointer-events: all;
+    fill-opacity: 0;
+    stroke-opacity: 0;
+    z-index: 1;
+}
+
 .tooltip {
     position: absolute;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-    pointer-events: none;
-    z-index: 999;
-    white-space: nowrap; /* Prevent line breaks within rows */
+    padding: 15px;
+    background-color: rgb(11, 40, 65);
+    color: white;
+    border: 0px solid white;
+    border-radius: 0px;
+    display: none;
+    opacity: .75;
+    font-size: 14px;
+}
+
+.tooltip-line {
+    stroke-opacity: 0.5;
+}
+
+.chart-title {
+    fill: red; /* Fill color for the text */
+    font-size: 20px;
+    font-weight: bold;
+    font-family: sans-serif;
+    text-anchor: start; /* Centers the text horizontally */
+    dominant-baseline: mathematical; /* Adjusts the vertical alignment */
 }
 
 .tooltip div {
