@@ -1,0 +1,64 @@
+.chart-container {
+  display: flex;
+  margin-top: 120px;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Tooltip styles */
+//.tooltip {
+//  display: none;
+//  position: absolute;
+//  background: rgba(0, 0, 0, 0.7);
+//  color: white;
+//  padding: 5px;
+//  border-radius: 5px;
+//  font-size: 12px;
+//
+//  & div {
+//    margin: 5px 0;
+//  }
+//
+//  &:after {
+//    content: '';
+//    position: absolute;
+//    border-style: solid;
+//    border-width: 10px 10px 0;
+//    border-color: #fff transparent transparent transparent;
+//    top: 100%;
+//    left: 50%;
+//    transform: translateX(-50%);
+//  }
+//}
+
+
+.tooltip {
+  position: absolute;
+  padding: 15px;
+  background-color: rgb(11, 40, 65);
+  color: white;
+  border: 0px solid white;
+  border-radius: 0px;
+  display: none;
+  opacity: .75;
+  font-size: 14px;
+}
+
+.tooltip-line {
+  stroke-opacity: 0.5;
+}
+
+.tooltip div {
+  margin: 5px 0; /* Add some spacing between rows */
+}
+
+.tooltip:after {
+  content: '';
+  position: absolute;
+  border-style: solid;
+  border-width: 10px 10px 0;
+  border-color: #fff transparent transparent transparent;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}

@@ -1,0 +1,73 @@
+rect.background-rect {
+  pointer-events: all;
+  fill-opacity: 0;
+  stroke-opacity: 0;
+  z-index: 1;
+}
+
+/* Style the rect element with the "background-rect" class */
+.rect.background-rect {
+  fill-opacity: 1; /* Set to 1 to make it fully opaque */
+  stroke-opacity: 0; /* Set to 0 to hide the stroke */
+  z-index: 1;
+}
+
+/* Style the rect element for crosshair interaction */
+rect.crosshair {
+  fill-opacity: 0; /* Set to 0 for transparency */
+  stroke-opacity: 0; /* Set to 0 to hide the stroke */
+  z-index: 1;
+}
+
+.candle {
+  stroke-width: 1;
+}
+
+.candle.green {
+  fill: green;
+}
+
+.candle.red {
+  fill: red;
+}
+
+.wick {
+  stroke-width: 1;
+  stroke: black;
+}
+//
+//.tooltip {
+//  position: absolute;
+//  padding: 15px;
+//  background-color: rgb(11, 40, 65);
+//  color: white;
+//  border: 0px solid white;
+//  border-radius: 0px;
+//  display: none;
+//  opacity: .75;
+//  font-size: 14px;
+//}
+//
+//.tooltip-line {
+//  stroke-opacity: 0.5;
+//}
+//
+//.tooltip div {
+//  margin: 5px 0; /* Add some spacing between rows */
+//}
+//
+//.tooltip:after {
+//  content: '';
+//  position: absolute;
+//  border-style: solid;
+//  border-width: 10px 10px 0;
+//  border-color: #fff transparent transparent transparent;
+//  top: 100%;
+//  left: 50%;
+//  transform: translateX(-50%);
+//}
+
+/* Add more styles as needed for your specific chart component */
+
+
+

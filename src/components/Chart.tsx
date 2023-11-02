@@ -1,15 +1,20 @@
-import React, {useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {useApi} from "../hooks/useOverview";
 import LoadingSpinner from "./LoadingSpinner";
-import {ChartComponent} from "./ChartComponent";
 import * as d3 from "d3";
+import {AreaChart} from "./charts/AreaChart";
+import {CandleChart} from "./charts/CandleChart";
+import './Chart.scss';
+import {ChartDatum, ChartType} from "../@types/ChartData";
 
 
 export const Chart: React.FC = () => {
 
     const { data, isLoading, isError, error } = useApi('TIME_SERIES_DAILY');
-    const tableData = useMemo(() => {
-        if (!data) { return { data: [] } }
+    const [chartType, setChartType] = useState<ChartType>('AREA_STICK');
+
+    const tableData = useMemo((): Array<ChartDatum> => {
+        if (!data) { return []  }
         const parseDate = d3.timeParse("%Y-%m-%d");
 
         const stockData = Object.entries(data).map(([date, values]) => ({
@@ -21,6 +26,13 @@ export const Chart: React.FC = () => {
 
     }, [data]);
 
+    const getChart = useCallback(() => {
+        if(chartType === 'CANDLE_STICK') {
+            return <CandleChart data={tableData} />
+        }
+        return <AreaChart data={tableData} />
+    },[data, chartType])
+
     if (isLoading) {
         return <LoadingSpinner />;
     }
@@ -29,5 +41,22 @@ export const Chart: React.FC = () => {
         return <div>Error fetching data {error.message}</div>;
     }
 
-    return (<div><ChartComponent data={tableData} /></div>);
+    return (
+        <div>
+            <div className={'button-container'}>
+                <button
+                    className={'button'}
+                    onClick={() => setChartType('CANDLE_STICK')}
+                >
+                    CANDLE STICK
+                </button>
+                <button
+                    className={'button'}
+                    onClick={() => setChartType('AREA_STICK')}
+                >
+                    AREA STICK
+                </button>
+            </div>
+            {getChart()}
+    </div>);
 };

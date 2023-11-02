@@ -10,14 +10,14 @@ export const ChartComponent: React.FC<ChartProps> = ({ data }) => {
     const chartRef = useRef(null);
     const chartContainerRef = useRef(null);
     const svgRef = useRef<SVGSVGElement | null>(null);
+    const margin = { top: 100, right: 60, bottom: 10, left: 10 };
+    const width = 1600 - margin.left - margin.right;
+    const height = 800 - margin.top - margin.bottom;
 
     useEffect(() => {
         if(!data) return;
-        // Set dimensions and margins for the chart
-        const margin = { top: 100, right: 60, bottom: 10, left: 10 };
-        const width = 1600 - margin.left - margin.right;
-        const height = 800 - margin.top - margin.bottom;
 
+        // Set dimensions and margins for the chart
         const x = d3.scaleTime().range([0, width]);
         const y = d3.scaleLinear().range([height, 0]);
 
@@ -150,9 +150,6 @@ export const ChartComponent: React.FC<ChartProps> = ({ data }) => {
             const xPos = x(d.Date);
             const yPos = y(d.Close);
 
-
-            const hoveredIndexData = data[Math.max(0, bisectionIndex)];
-
             circle.attr("cx", xPos).attr("cy", yPos);
 
 
@@ -194,11 +191,9 @@ export const ChartComponent: React.FC<ChartProps> = ({ data }) => {
             tooltipLineX.style("display", "none");
             tooltipLineY.style("display", "none");
         });
-
-
         // Add the chart title
 
-        svg .append('text')
+        svg.append('text')
             .attr('class', 'chart-title')
             .attr('x', width / 2) // Adjust the x-coordinate to center the title
             .attr('y', margin.top   ) // Adjust the y-coordinate for positioning

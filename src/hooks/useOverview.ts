@@ -63,6 +63,7 @@ const transformTimeSeriesDaily = (data: Record<string, TimeSeriesDataType>) => {
 
         for (const oldKey in innerObject) {
             if (keyMapping[oldKey]) {
+                innerObject[oldKey] = +innerObject[oldKey];
                 transformedInnerObject[keyMapping[oldKey]] = innerObject[oldKey];
             } else {
                 transformedInnerObject[oldKey] = innerObject[oldKey];
