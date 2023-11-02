@@ -1,18 +1,16 @@
-import React, { useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import "./CandleChart.scss";
 import { ScaleLinear, ScaleTime } from "d3";
 import { ChartDatum } from "../../@types/ChartData";
-import {addToolTip, getXyPosition, onMouseLeave} from "./ChartHelper";
+import { addToolTip, getXyPosition, onMouseLeave } from "./ChartHelper";
 
 interface ChartProps {
   data: Array<ChartDatum>;
 }
 
-
-
 const addHoverEffect = (
-  svg:d3.Selection<SVGSVGElement, any, HTMLElement, any>,
+  svg: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
   width: number,
   height: number,
   x: ScaleTime<number, number, never>,
@@ -30,7 +28,7 @@ const addHoverEffect = (
     .attr("height", height)
     .classed("background-rect", true);
   listeningRect.on("mousemove", (event: React.MouseEvent<SVGSVGElement>) => {
-    const {d, xPos, yPos} = getXyPosition(event, x, data, y);
+    const { d, xPos, yPos } = getXyPosition(event, x, data, y);
 
     circle.attr("cx", xPos).attr("cy", yPos);
     // Add transition for the circle radius
@@ -61,13 +59,19 @@ const addHoverEffect = (
                         </ul>`,
       );
   });
-  onMouseLeave(listeningRect, circle, tooltip, tooltipRawDate, tooltipLineX, tooltipLineY);
+  onMouseLeave(
+    listeningRect,
+    circle,
+    tooltip,
+    tooltipRawDate,
+    tooltipLineX,
+    tooltipLineY,
+  );
 };
 
 export const CandleChart: React.FC<ChartProps> = ({ data }) => {
   const chartRef = useRef(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
-
 
   useEffect(() => {
     if (!data) return;
@@ -79,19 +83,23 @@ export const CandleChart: React.FC<ChartProps> = ({ data }) => {
     const x = d3.scaleTime().range([0, width]);
     const y = d3.scaleLinear().range([height, 0]);
 
-    const svg = d3
-      .select(svgRef.current) as unknown as d3.Selection<SVGSVGElement, any, HTMLElement, any>;
+    const svg = d3.select(svgRef.current) as unknown as d3.Selection<
+      SVGSVGElement,
+      any,
+      HTMLElement,
+      any
+    >;
 
-      svg.attr("width", width + margin.left + margin.right)
+    svg
+      .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-
     x.domain(d3.extent(data, (d) => d.Date)! as [Date, Date]);
     y.domain([d3.min(data, (d) => d.low)!, d3.max(data, (d) => d.high)!]);
 
-    const { tooltip , tooltipRawDate, circle, tooltipLineX, tooltipLineY } =
+    const { tooltip, tooltipRawDate, circle, tooltipLineX, tooltipLineY } =
       addToolTip(chartRef, svg);
 
     svg
@@ -99,8 +107,8 @@ export const CandleChart: React.FC<ChartProps> = ({ data }) => {
       .attr("class", "x-axis")
       .attr("transform", `translate(0, ${height})`)
       .call(
-          d3.axisBottom(x).tickFormat(d => d3.timeFormat("%b %d")(d as Date)
-      ));
+        d3.axisBottom(x).tickFormat((d) => d3.timeFormat("%b %d")(d as Date)),
+      );
 
     svg
       .append("g")
@@ -148,7 +156,12 @@ export const CandleChart: React.FC<ChartProps> = ({ data }) => {
       tooltipLineX,
       tooltipLineY,
       tooltip as unknown as d3.Selection<SVGSVGElement, any, HTMLElement, any>,
-      tooltipRawDate as unknown as d3.Selection<SVGSVGElement, any, HTMLElement, any>,
+      tooltipRawDate as unknown as d3.Selection<
+        SVGSVGElement,
+        any,
+        HTMLElement,
+        any
+      >,
     );
   }, [data]);
 

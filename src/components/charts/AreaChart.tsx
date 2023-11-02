@@ -1,10 +1,9 @@
-
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import "./AreaChart.scss";
-import { ScaleLinear, ScaleTime} from "d3";
+import { ScaleLinear, ScaleTime } from "d3";
 import { ChartDatum } from "../../@types/ChartData";
-import {addToolTip, getXyPosition, onMouseLeave} from "./ChartHelper";
+import { addToolTip, getXyPosition, onMouseLeave } from "./ChartHelper";
 
 interface ChartProps {
   data: Array<ChartDatum>;
@@ -30,7 +29,7 @@ function addHoverEffect(
     .classed("background-area-rect", true);
 
   listeningRect.on("mousemove", (event: React.MouseEvent<SVGSVGElement>) => {
-    const {d, xPos, yPos} = getXyPosition(event, x, data, y);
+    const { d, xPos, yPos } = getXyPosition(event, x, data, y);
 
     circle.attr("cx", xPos).attr("cy", yPos);
 
@@ -71,7 +70,14 @@ function addHoverEffect(
 
   // listening rectangle mouse leave function
 
-  onMouseLeave(listeningRect, circle, tooltip, tooltipRawDate, tooltipLineX, tooltipLineY);
+  onMouseLeave(
+    listeningRect,
+    circle,
+    tooltip,
+    tooltipRawDate,
+    tooltipLineX,
+    tooltipLineY,
+  );
 }
 
 export const AreaChart: React.FC<ChartProps> = ({ data }) => {
@@ -89,7 +95,12 @@ export const AreaChart: React.FC<ChartProps> = ({ data }) => {
     const x = d3.scaleTime().range([0, width]);
     const y = d3.scaleLinear().range([height, 0]);
 
-    const svg = d3.select(svgRef.current) as unknown as d3.Selection<SVGSVGElement, any, HTMLElement, any>;
+    const svg = d3.select(svgRef.current) as unknown as d3.Selection<
+      SVGSVGElement,
+      any,
+      HTMLElement,
+      any
+    >;
     svg
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
@@ -162,8 +173,13 @@ export const AreaChart: React.FC<ChartProps> = ({ data }) => {
       circle,
       tooltipLineX,
       tooltipLineY,
-        tooltip as unknown as d3.Selection<SVGSVGElement, any, HTMLElement, any>,
-      tooltipRawDate as unknown as d3.Selection<SVGSVGElement, any, HTMLElement, any>,
+      tooltip as unknown as d3.Selection<SVGSVGElement, any, HTMLElement, any>,
+      tooltipRawDate as unknown as d3.Selection<
+        SVGSVGElement,
+        any,
+        HTMLElement,
+        any
+      >,
     );
   }, [data]);
 
