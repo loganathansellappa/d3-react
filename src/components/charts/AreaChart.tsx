@@ -2,12 +2,15 @@ import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import "./AreaChart.scss";
 import { ScaleLinear, ScaleTime } from "d3";
-import { ChartDatum } from "../../@types/ChartData";
-import { addToolTip, getXyPosition, onMouseLeave } from "./ChartHelper";
+import { ChartComponentProps, ChartDatum } from "../../@types/ChartData";
+import {
+  addToolTip,
+  getXyPosition,
+  onMouseLeave,
+  setSvgDimensions,
+} from "./ChartHelper";
 
-interface ChartProps {
-  data: Array<ChartDatum>;
-}
+interface AreaChartProps extends ChartComponentProps {}
 
 function addHoverEffect(
   svg: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
@@ -80,35 +83,24 @@ function addHoverEffect(
   );
 }
 
-export const AreaChart: React.FC<ChartProps> = ({ data }) => {
+export const AreaChart: React.FC<AreaChartProps> = ({
+  data,
+  cwidth = 1600,
+  cheight = 800,
+}) => {
   const chartRef = useRef(null);
-  const chartContainerRef = useRef(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
   useEffect(() => {
     if (!data) return;
 
     const margin = { top: 100, right: 60, bottom: 10, left: 10 };
-    const width = 1600 - margin.left - margin.right;
-    const height = 800 - margin.top - margin.bottom;
-
-    // Set dimensions and margins for the chart
-    const x = d3.scaleTime().range([0, width]);
-    const y = d3.scaleLinear().range([height, 0]);
-
-    const svg = d3.select(svgRef.current) as unknown as d3.Selection<
-      SVGSVGElement,
-      any,
-      HTMLElement,
-      any
-    >;
-    svg
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
-
-    // Set the domains for the x and y scales
-    x.domain(d3.extent(data, (d) => d.Date)! as [Date, Date]);
+    const { width, height, x, y, svg } = setSvgDimensions(
+      cwidth,
+      margin,
+      cheight,
+      svgRef,
+      data,
+    );
     y.domain([d3.min(data, (d) => d.Close)!, d3.max(data, (d) => d.Close)!]);
 
     // Add the x-axis
@@ -162,8 +154,7 @@ export const AreaChart: React.FC<ChartProps> = ({ data }) => {
 
     const { tooltip, tooltipRawDate, circle, tooltipLineX, tooltipLineY } =
       addToolTip(chartRef, svg);
-    addHoverEffect.call(
-      this,
+    addHoverEffect(
       svg,
       width,
       height,
@@ -181,13 +172,11 @@ export const AreaChart: React.FC<ChartProps> = ({ data }) => {
         any
       >,
     );
-  }, [data]);
+  }, [data, cwidth, cheight]);
 
   return (
-    <div ref={chartRef}>
-      <div className="chart-container" ref={chartContainerRef}>
+    <div ref={chartRef} className="chart-container" >
         <svg ref={svgRef}></svg>
-      </div>
     </div>
   );
 };

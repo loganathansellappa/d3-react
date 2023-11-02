@@ -76,3 +76,36 @@ export function onMouseLeave(
     tooltipLineY.style("display", "none");
   });
 }
+
+export function setSvgDimensions(
+  cwidth: number,
+  margin: { top: number; left: number; bottom: number; right: number },
+  cheight: number,
+  svgRef: React.MutableRefObject<SVGSVGElement | null>,
+  data: ChartDatum[],
+) {
+  const width = cwidth - margin.left - margin.right;
+  const height = cheight - margin.top - margin.bottom;
+
+  const x = d3.scaleTime().range([0, width]);
+  const y = d3.scaleLinear().range([height, 0]);
+
+  const svg = d3.select(svgRef.current) as unknown as d3.Selection<
+    SVGSVGElement,
+    any,
+    HTMLElement,
+    any
+  >;
+
+  const svgWidth = width + margin.left + margin.right;
+  const svgHeight = height + margin.top + margin.bottom;
+  svg
+    .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`)
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+  x.domain(
+    d3.extent(data, (d: ChartDatum) => d.Date)! as unknown as [Date, Date],
+  );
+  return { width, height, x, y, svg };
+}

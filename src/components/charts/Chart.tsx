@@ -1,13 +1,18 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { useApi } from "../hooks/customHooks";
-import LoadingSpinner from "./LoadingSpinner";
+import { useApi } from "../../hooks/customHooks";
+import LoadingSpinner from "../loader/LoadingSpinner";
 import * as d3 from "d3";
-import { AreaChart } from "./charts/AreaChart";
-import { CandleChart } from "./charts/CandleChart";
+import { AreaChart } from "./AreaChart";
+import { CandleChart } from "./CandleChart";
 import "./Chart.scss";
-import { ChartDatum, ChartType } from "../@types/ChartData";
+import {
+  ChartComponentProps,
+  ChartDatum,
+  ChartType,
+} from "../../@types/ChartData";
 
-export const Chart: React.FC = () => {
+interface ChartProps extends Omit<ChartComponentProps, "data"> {}
+export const Chart: React.FC<ChartProps> = ({ cwidth, cheight }) => {
   const { data, isLoading, isError, error } = useApi("TIME_SERIES_DAILY");
   const [chartType, setChartType] = useState<ChartType>("AREA_STICK");
 
@@ -29,11 +34,13 @@ export const Chart: React.FC = () => {
   const getChart = useCallback(() => {
     switch (chartType) {
       case "CANDLE_STICK":
-        return <CandleChart data={tableData} />;
+        return (
+          <CandleChart cwidth={cwidth} cheight={cheight} data={tableData} />
+        );
       default:
-        return <AreaChart data={tableData} />;
+        return <AreaChart cwidth={cwidth} cheight={cheight} data={tableData} />;
     }
-  }, [tableData, chartType]);
+  }, [tableData, chartType, cwidth, cheight]);
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -44,7 +51,7 @@ export const Chart: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className={'chart-wrapper'}>
       <div className={"button-container"}>
         <button
           className={"button"}
@@ -56,6 +63,7 @@ export const Chart: React.FC = () => {
           AREA STICK
         </button>
       </div>
+
       {getChart()}
     </div>
   );

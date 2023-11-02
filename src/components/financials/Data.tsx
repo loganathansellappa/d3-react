@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from "react";
-import { KeyValueTable } from "./KeyValueTable";
-import { BalanceSheetSchemaType } from "../@types/zodSchema";
-import { useApi } from "../hooks/customHooks";
-import LoadingSpinner from "./LoadingSpinner";
+import { KeyValueTable } from "../common/KeyValueTable";
+import { BalanceSheetSchemaType } from "../../@types/zodSchema";
+import { useApi } from "../../hooks/customHooks";
+import LoadingSpinner from "../loader/LoadingSpinner";
 import "./Data.scss";
 interface DataProps {
   dataKey: string;

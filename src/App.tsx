@@ -1,13 +1,13 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.scss";
-import { Tabs } from "./components/Tabs";
-import { Overview } from "./components/Overview";
-import { IncomeStatement } from "./components/IncomeStatement";
-import { BalanceSheet } from "./components/BalanceSheet";
-import { ContextMenuProvider } from "./components/ContextMenuProvider";
+import { Tabs } from "./components/home/Tabs";
+import { Overview } from "./components/home/Overview";
+import { IncomeStatement } from "./components/financials/IncomeStatement";
+import { BalanceSheet } from "./components/financials/BalanceSheet";
+import { ContextMenuProvider } from "./components/contextMenu/ContextMenuProvider";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Chart } from "./components/Chart";
+import { Chart } from "./components/charts/Chart";
 
 const queryClient = new QueryClient();
 
@@ -26,7 +26,7 @@ const App: React.FC = () => {
                 <Route path="/chart" element={<Chart />} />
               </Routes>
             </div>
-            <footer className="footer">Footer</footer>
+            <footer className="footer">@Demo App </footer>
           </div>
         </ContextMenuProvider>
       </QueryClientProvider>

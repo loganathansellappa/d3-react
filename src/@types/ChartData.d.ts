@@ -9,3 +9,9 @@ export interface ChartDatum {
 }
 
 export type ChartType = "CANDLE_STICK" | "AREA_STICK";
+
+export type ChartComponentProps = {
+  data: Array<ChartDatum>;
+  cwidth?: number;
+  cheight?: number;
+};

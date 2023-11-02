@@ -2,12 +2,14 @@ import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import "./CandleChart.scss";
 import { ScaleLinear, ScaleTime } from "d3";
-import { ChartDatum } from "../../@types/ChartData";
-import { addToolTip, getXyPosition, onMouseLeave } from "./ChartHelper";
-
-interface ChartProps {
-  data: Array<ChartDatum>;
-}
+import { ChartComponentProps, ChartDatum } from "../../@types/ChartData";
+import {
+  addToolTip,
+  getXyPosition,
+  onMouseLeave,
+  setSvgDimensions,
+} from "./ChartHelper";
+interface CandleChartProps extends ChartComponentProps {}
 
 const addHoverEffect = (
   svg: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
@@ -47,8 +49,8 @@ const addHoverEffect = (
       .attr("x2", width);
     tooltip
       .style("display", "block")
-      .style("left", `100px`)
-      .style("top", `100px`)
+      .style("left", width / 4 + "px")
+      .style("top", `250px`)
       .html(
         `<ul>
                             <li>Date: ${d.Date.toISOString().slice(0, 10)}</li>
@@ -69,7 +71,11 @@ const addHoverEffect = (
   );
 };
 
-export const CandleChart: React.FC<ChartProps> = ({ data }) => {
+export const CandleChart: React.FC<CandleChartProps> = ({
+  data,
+  cheight = 800,
+  cwidth = 1600,
+}) => {
   const chartRef = useRef(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
 
@@ -77,26 +83,13 @@ export const CandleChart: React.FC<ChartProps> = ({ data }) => {
     if (!data) return;
 
     const margin = { top: 50, right: 50, bottom: 50, left: 50 };
-    const width = 1800 - margin.left - margin.right;
-    const height = 600 - margin.top - margin.bottom;
-
-    const x = d3.scaleTime().range([0, width]);
-    const y = d3.scaleLinear().range([height, 0]);
-
-    const svg = d3.select(svgRef.current) as unknown as d3.Selection<
-      SVGSVGElement,
-      any,
-      HTMLElement,
-      any
-    >;
-
-    svg
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-    x.domain(d3.extent(data, (d) => d.Date)! as [Date, Date]);
+    const { width, height, x, y, svg } = setSvgDimensions(
+      cwidth,
+      margin,
+      cheight,
+      svgRef,
+      data,
+    );
     y.domain([d3.min(data, (d) => d.low)!, d3.max(data, (d) => d.high)!]);
 
     const { tooltip, tooltipRawDate, circle, tooltipLineX, tooltipLineY } =
@@ -144,8 +137,7 @@ export const CandleChart: React.FC<ChartProps> = ({ data }) => {
       .attr("height", (d) => Math.abs(y(d.open) - y(d.Close)))
       .attr("class", (d) => (d.open < d.Close ? "candle green" : "candle red"));
 
-    addHoverEffect.call(
-      this,
+    addHoverEffect(
       svg,
       width,
       height,
@@ -163,7 +155,7 @@ export const CandleChart: React.FC<ChartProps> = ({ data }) => {
         any
       >,
     );
-  }, [data]);
+  }, [data, cheight, cwidth]);
 
   return (
     <div ref={chartRef} className={"chart-container"}>

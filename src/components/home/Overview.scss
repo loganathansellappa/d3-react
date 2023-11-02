@@ -1,0 +1,21 @@
+.overview {
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .overview__content {
+    display: flex;
+    flex-direction: row;
+    table {
+      flex: 0 0 60%;
+      margin-right: 50px;
+    }
+    .chart {
+      margin-top: 100px;
+      flex: 0 0 40%;
+    }
+  }
+}
