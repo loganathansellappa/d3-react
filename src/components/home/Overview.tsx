@@ -3,9 +3,11 @@ import "./Overview.scss";
 import { useApi } from "../../hooks/customHooks";
 import LoadingSpinner from "../loader/LoadingSpinner";
 import { Chart } from "../charts/Chart";
+import { UseQueryResult } from "react-query";
 
 export const Overview: React.FC = () => {
-  const { data, isLoading, isError, error } = useApi("OVERVIEW");
+  const { data, isLoading, isError, error }: UseQueryResult<any> =
+    useApi("OVERVIEW");
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -23,21 +25,21 @@ export const Overview: React.FC = () => {
           <table>
             <thead>
               <tr>
-                <th>Property</th>
-                <th>Value</th>
+                <th>{data.Name!}</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {Object.entries(data).map(([property, value]) => (
                 <tr key={property}>
                   <td className={"bold-property"}>{property}</td>
-                  <td>{value}</td>
+                  <td>{value as string}</td>
                 </tr>
               ))}
             </tbody>
           </table>
           <div className="chart">
-            <Chart></Chart>
+            <Chart fixedTooltip={true}></Chart>
           </div>
         </div>
       </div>

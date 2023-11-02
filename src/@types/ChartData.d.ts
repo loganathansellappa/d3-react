@@ -14,4 +14,6 @@ export type ChartComponentProps = {
   data: Array<ChartDatum>;
   cwidth?: number;
   cheight?: number;
+
+  fixedTooltip?: boolean;
 };

@@ -1,80 +1,15 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import "./CandleChart.scss";
-import { ScaleLinear, ScaleTime } from "d3";
-import { ChartComponentProps, ChartDatum } from "../../@types/ChartData";
-import {
-  addToolTip,
-  getXyPosition,
-  onMouseLeave,
-  setSvgDimensions,
-} from "./ChartHelper";
+import { ChartComponentProps } from "../../@types/ChartData";
+import { addToolTip, displayOnHover, setSvgDimensions } from "./ChartHelper";
 interface CandleChartProps extends ChartComponentProps {}
-
-const addHoverEffect = (
-  svg: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
-  width: number,
-  height: number,
-  x: ScaleTime<number, number, never>,
-  data: ChartDatum[],
-  y: ScaleLinear<number, number, never>,
-  circle: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
-  tooltipLineX: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
-  tooltipLineY: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
-  tooltip: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
-  tooltipRawDate: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
-) => {
-  const listeningRect = svg
-    .append("rect")
-    .attr("width", width)
-    .attr("height", height)
-    .classed("background-rect", true);
-  listeningRect.on("mousemove", (event: React.MouseEvent<SVGSVGElement>) => {
-    const { d, xPos, yPos } = getXyPosition(event, x, data, y);
-
-    circle.attr("cx", xPos).attr("cy", yPos);
-    // Add transition for the circle radius
-    circle.transition().duration(50).attr("r", 20);
-    tooltipLineX
-      .style("display", "block")
-      .attr("x1", xPos)
-      .attr("x2", xPos)
-      .attr("y1", 0)
-      .attr("y2", height);
-    tooltipLineY
-      .style("display", "block")
-      .attr("y1", yPos)
-      .attr("y2", yPos)
-      .attr("x1", 0)
-      .attr("x2", width);
-    tooltip
-      .style("display", "block")
-      .style("left", width / 4 + "px")
-      .style("top", `250px`)
-      .html(
-        `<ul>
-                            <li>Date: ${d.Date.toISOString().slice(0, 10)}</li>
-                            <li>Open: ${d.open}</li>
-                            <li>High: ${d.high}</li>
-                            <li>Low: ${d.low}</li>
-                            <li>Close: ${d.Close}</li>
-                        </ul>`,
-      );
-  });
-  onMouseLeave(
-    listeningRect,
-    circle,
-    tooltip,
-    tooltipRawDate,
-    tooltipLineX,
-    tooltipLineY,
-  );
-};
 
 export const CandleChart: React.FC<CandleChartProps> = ({
   data,
   cheight = 800,
   cwidth = 1600,
+  fixedTooltip = true,
 }) => {
   const chartRef = useRef(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
@@ -137,7 +72,8 @@ export const CandleChart: React.FC<CandleChartProps> = ({
       .attr("height", (d) => Math.abs(y(d.open) - y(d.Close)))
       .attr("class", (d) => (d.open < d.Close ? "candle green" : "candle red"));
 
-    addHoverEffect(
+    displayOnHover(
+      fixedTooltip,
       svg,
       width,
       height,
@@ -155,7 +91,7 @@ export const CandleChart: React.FC<CandleChartProps> = ({
         any
       >,
     );
-  }, [data, cheight, cwidth]);
+  }, [data, cheight, cwidth, fixedTooltip]);
 
   return (
     <div ref={chartRef} className={"chart-container"}>

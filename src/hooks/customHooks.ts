@@ -10,14 +10,16 @@ import {
 } from "../@types/zodSchema";
 import { z } from "zod";
 import { ChartDatum } from "../@types/ChartData";
-import {serverData} from "../utils/HelperUtils";
+import { serverData } from "../utils/HelperUtils";
 
 const TransformedTimeSeriesDailySchema = TimeSeriesDailySchema.transform(
   (data) => transformTimeSeriesDaily(data["Time Series (Daily)"]),
 );
 const fetchData = async (fn: string = "OVERVIEW") => {
-  const url = `${serverData().baseUrl}?function=${fn}&symbol=IBM&apikey=${serverData().apiKey}`;
-  console.log(url)
+  const url = `${serverData().baseUrl}?function=${fn}&symbol=IBM&apikey=${
+    serverData().apiKey
+  }`;
+  console.log(url);
   const response = await axios.get(url);
   const schemaMap: Record<string, z.Schema<unknown>> = {
     OVERVIEW: NormalizedCompanySchema,

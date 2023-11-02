@@ -20,7 +20,8 @@ const App: React.FC = () => {
             <Tabs />
             <div className="content">
               <Routes>
-                <Route path="/overview" index element={<Overview />} />
+                <Route path="/" element={<Overview />} />
+                <Route path="/overview" element={<Overview />} />
                 <Route path="/balance" element={<BalanceSheet />} />
                 <Route path="/income" element={<IncomeStatement />} />
                 <Route path="/chart" element={<Chart />} />

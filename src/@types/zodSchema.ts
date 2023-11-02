@@ -147,9 +147,5 @@ export const TimeSeriesDailySchema = z.object({
   "Time Series (Daily)": timeSeriesDailySchema,
 });
 
-export type AnnualReportType = z.infer<typeof AnnualReportSchema>;
-export type TimeSeriesDailyType = z.infer<typeof TimeSeriesDailySchema>;
 export type TimeSeriesDataType = z.infer<typeof timeSeriesItemSchema>;
-export type CashFlowType = z.infer<typeof CashFlowSchema>;
-export type IncomeStatementType = z.infer<typeof IncomeStatementSchema>;
 export type BalanceSheetSchemaType = z.infer<typeof BalanceSheetSchema>;

@@ -4,7 +4,7 @@ import { BalanceSheetSchemaType } from "../../@types/zodSchema";
 import { useApi } from "../../hooks/customHooks";
 import LoadingSpinner from "../loader/LoadingSpinner";
 import "./Data.scss";
-import {Button} from "../button/Button";
+import { Button } from "../button/Button";
 interface DataProps {
   dataKey: string;
   title: string;
@@ -44,7 +44,12 @@ export const DataComponent: React.FC<DataProps> = ({ dataKey, title }) => {
   return (
     <div className="data">
       <h2>{title}</h2>
-      <Button buttonOneClick={() => setDisplayAnnual(true)} buttonTwoClick={() => setDisplayAnnual(false)} labelOne={"Annual"} labelTwo={"Quarterly"} />
+      <Button
+        buttonOneClick={() => setDisplayAnnual(true)}
+        buttonTwoClick={() => setDisplayAnnual(false)}
+        labelOne={"Annual"}
+        labelTwo={"Quarterly"}
+      />
       <KeyValueTable headers={tableData.headers} data={tableData.data} />
     </div>
   );

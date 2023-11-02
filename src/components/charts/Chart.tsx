@@ -10,10 +10,14 @@ import {
   ChartDatum,
   ChartType,
 } from "../../@types/ChartData";
-import {Button} from "../button/Button";
+import { Button } from "../button/Button";
 
 interface ChartProps extends Omit<ChartComponentProps, "data"> {}
-export const Chart: React.FC<ChartProps> = ({ cwidth, cheight }) => {
+export const Chart: React.FC<ChartProps> = ({
+  cwidth,
+  cheight,
+  fixedTooltip = false,
+}) => {
   const { data, isLoading, isError, error } = useApi("TIME_SERIES_DAILY");
   const [chartType, setChartType] = useState<ChartType>("AREA_STICK");
 
@@ -39,9 +43,16 @@ export const Chart: React.FC<ChartProps> = ({ cwidth, cheight }) => {
           <CandleChart cwidth={cwidth} cheight={cheight} data={tableData} />
         );
       default:
-        return <AreaChart cwidth={cwidth} cheight={cheight} data={tableData} />;
+        return (
+          <AreaChart
+            cwidth={cwidth}
+            cheight={cheight}
+            data={tableData}
+            fixedTooltip={fixedTooltip}
+          />
+        );
     }
-  }, [tableData, chartType, cwidth, cheight]);
+  }, [tableData, chartType, cwidth, cheight, fixedTooltip]);
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -52,10 +63,14 @@ export const Chart: React.FC<ChartProps> = ({ cwidth, cheight }) => {
   }
 
   return (
-    <div className={'chart-wrapper'}>
-      <h2 className={'title'}>Daily Data</h2>
-      <Button buttonOneClick={() => setChartType("AREA_STICK")}
-              buttonTwoClick={() => setChartType("CANDLE_STICK")} labelOne={"Area Chart"} labelTwo={"Candle Chart"} />
+    <div className={"chart-wrapper"}>
+      <h2 className={"title"}>Daily Data</h2>
+      <Button
+        buttonOneClick={() => setChartType("AREA_STICK")}
+        buttonTwoClick={() => setChartType("CANDLE_STICK")}
+        labelOne={"Area Chart"}
+        labelTwo={"Candle Chart"}
+      />
 
       {getChart()}
     </div>
