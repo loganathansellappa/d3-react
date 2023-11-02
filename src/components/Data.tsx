@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from "react";
-import { KeyValueTable } from "./KeyValueTable"; // Import KeyValueTable from the appropriate location
-import { BalanceSheetSchemaType } from "../@types/zodSchema"; // Adjust the import path as needed
-import { useApi } from "../hooks/useOverview";
-import LoadingSpinner from "./LoadingSpinner"; // Adjust the import path as needed
+import { KeyValueTable } from "./KeyValueTable";
+import { BalanceSheetSchemaType } from "../@types/zodSchema";
+import { useApi } from "../hooks/customHooks";
+import LoadingSpinner from "./LoadingSpinner";
 import "./Data.scss";
 interface DataProps {
   dataKey: string;

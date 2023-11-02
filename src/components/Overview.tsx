@@ -1,6 +1,6 @@
 import React from "react";
 import "./Overview.scss";
-import { useApi } from "../hooks/useOverview";
+import { useApi } from "../hooks/customHooks";
 import LoadingSpinner from "./LoadingSpinner";
 import { Chart } from "./Chart";
 

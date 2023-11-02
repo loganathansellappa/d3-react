@@ -1,11 +1,10 @@
-// noinspection TypeScriptValidateTypes
 
 import React, {useEffect, useRef} from "react";
 import * as d3 from "d3";
 import "./AreaChart.scss";
 import { ScaleLinear, ScaleTime} from "d3";
 import { ChartDatum } from "../../@types/ChartData";
-import {addToolTip, getXyPosition} from "./ChartHelper";
+import {addToolTip, getXyPosition, onMouseLeave} from "./ChartHelper";
 
 interface ChartProps {
   data: Array<ChartDatum>;
@@ -30,7 +29,7 @@ function addHoverEffect(
     .attr("height", height)
     .classed("background-area-rect", true);
 
-  listeningRect.on("touchmouse mousemove", (event: React.MouseEvent<SVGSVGElement>) => {
+  listeningRect.on("mousemove", (event: React.MouseEvent<SVGSVGElement>) => {
     const {d, xPos, yPos} = getXyPosition(event, x, data, y);
 
     circle.attr("cx", xPos).attr("cy", yPos);
@@ -72,15 +71,7 @@ function addHoverEffect(
 
   // listening rectangle mouse leave function
 
-  listeningRect.on("mouseleave", function () {
-    circle.transition().duration(50).attr("r", 0);
-    tooltip.style("display", "none");
-    tooltipRawDate.style("display", "none");
-    tooltipLineX.attr("x1", 0).attr("x2", 0);
-    tooltipLineY.attr("y1", 0).attr("y2", 0);
-    tooltipLineX.style("display", "none");
-    tooltipLineY.style("display", "none");
-  });
+  onMouseLeave(listeningRect, circle, tooltip, tooltipRawDate, tooltipLineX, tooltipLineY);
 }
 
 export const AreaChart: React.FC<ChartProps> = ({ data }) => {

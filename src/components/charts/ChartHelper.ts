@@ -52,3 +52,15 @@ export function getXyPosition(event: React.MouseEvent<SVGSVGElement>, x: ScaleTi
     const yPos = y(d.Close);
     return {d, xPos, yPos};
 }
+
+export function onMouseLeave(listeningRect: Selection<ElementTagNameMap[string], any, HTMLElement, any>, circle: Selection<SVGSVGElement, any, HTMLElement, any>, tooltip: Selection<SVGSVGElement, any, HTMLElement, any>, tooltipRawDate: Selection<SVGSVGElement, any, HTMLElement, any>, tooltipLineX: Selection<SVGSVGElement, any, HTMLElement, any>, tooltipLineY: Selection<SVGSVGElement, any, HTMLElement, any>) {
+    listeningRect.on("mouseleave", function () {
+        circle.transition().duration(50).attr("r", 0);
+        tooltip.style("display", "none");
+        tooltipRawDate.style("display", "none");
+        tooltipLineX.attr("x1", 0).attr("x2", 0);
+        tooltipLineY.attr("y1", 0).attr("y2", 0);
+        tooltipLineX.style("display", "none");
+        tooltipLineY.style("display", "none");
+    });
+}
