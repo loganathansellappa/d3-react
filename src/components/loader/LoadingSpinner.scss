@@ -9,6 +9,13 @@ $spinner-color: #0073e6;
   }
 }
 
+.spinner-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100vh; /* Adjust the height as needed to center vertically within the parent element. */
+}
+
 .loading-spinner {
   display: inline-block;
   width: 64px;

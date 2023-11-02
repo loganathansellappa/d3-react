@@ -18,6 +18,12 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
     animation: "spin 2s linear infinite",
   };
 
-  return <div style={spinnerStyle} className="loading-spinner"></div>;
+  return (
+      <>
+        <div className="spinner-container">
+          <div style={spinnerStyle} className="loading-spinner"></div>
+        </div>
+    </>
+  );
 };
 export default LoadingSpinner;

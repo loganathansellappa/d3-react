@@ -10,6 +10,7 @@ import {
   ChartDatum,
   ChartType,
 } from "../../@types/ChartData";
+import {Button} from "../button/Button";
 
 interface ChartProps extends Omit<ChartComponentProps, "data"> {}
 export const Chart: React.FC<ChartProps> = ({ cwidth, cheight }) => {
@@ -52,17 +53,9 @@ export const Chart: React.FC<ChartProps> = ({ cwidth, cheight }) => {
 
   return (
     <div className={'chart-wrapper'}>
-      <div className={"button-container"}>
-        <button
-          className={"button"}
-          onClick={() => setChartType("CANDLE_STICK")}
-        >
-          CANDLE STICK
-        </button>
-        <button className={"button"} onClick={() => setChartType("AREA_STICK")}>
-          AREA STICK
-        </button>
-      </div>
+      <h2 className={'title'}>Daily Data</h2>
+      <Button buttonOneClick={() => setChartType("AREA_STICK")}
+              buttonTwoClick={() => setChartType("CANDLE_STICK")} labelOne={"Area Chart"} labelTwo={"Candle Chart"} />
 
       {getChart()}
     </div>

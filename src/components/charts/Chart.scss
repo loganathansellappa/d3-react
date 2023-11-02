@@ -3,10 +3,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  .title {
+    align-self: flex-start;
+  }
   .button-container {
     align-self: flex-start;
     margin-left: 10%;
     margin-top: 10px;
+    margin-bottom: 10px;
+    .button {
+      margin-right: 10px;
+    }
   }
 }
 
