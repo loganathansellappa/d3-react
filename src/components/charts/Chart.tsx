@@ -58,6 +58,10 @@ export const Chart: React.FC<ChartProps> = ({
     return <LoadingSpinner />;
   }
 
+  /*
+    TODO: Add better error handling with separate components
+   */
+
   if (isError && error instanceof Error) {
     return <div>Error fetching data {error.message}</div>;
   }

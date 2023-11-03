@@ -20,11 +20,20 @@ const App: React.FC = () => {
             <Tabs />
             <div className="content">
               <Routes>
-                <Route path="/" element={<Overview />} />
-                <Route path="/overview" element={<Overview />} />
-                <Route path="/balance" element={<BalanceSheet />} />
-                <Route path="/income" element={<IncomeStatement />} />
-                <Route path="/chart" element={<Chart />} />
+                {[
+                  { path: "/", element: <Overview /> },
+                  { path: "/overview", element: <Overview /> },
+                  { path: "/balance", element: <BalanceSheet /> },
+                  { path: "/income", element: <IncomeStatement /> },
+                  { path: "/chart", element: <Chart /> },
+                  { path: "*", element: <Overview /> },
+                ].map((route, index) => (
+                  <Route
+                    key={index}
+                    path={route.path}
+                    element={route.element}
+                  />
+                ))}
               </Routes>
             </div>
             <footer className="footer">@Demo App </footer>

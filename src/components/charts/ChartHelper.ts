@@ -3,6 +3,18 @@ import { ScaleLinear, ScaleTime, select } from "d3";
 import * as d3 from "d3";
 import { ChartDatum } from "../../@types/ChartData";
 
+/*
+ * This function is used to add the tooltip to the chart
+ * @param chartRef - The reference to the chart
+ * @param svg - The svg element
+ * @returns tooltip, tooltipRawDate, circle, tooltipLineX, tooltipLineY
+ * tooltip - The tooltip element
+ * tooltipRawDate - The tooltip element for the raw date
+ * circle - The circle element
+ * tooltipLineX - The line element for the x axis
+ * tooltipLineY - The line element for the y axis
+ *
+ */
 export const addToolTip = (
   chartRef: React.MutableRefObject<null>,
   svg: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
@@ -37,12 +49,25 @@ export const addToolTip = (
   return { tooltip, tooltipRawDate, circle, tooltipLineX, tooltipLineY };
 };
 
-export function getXyPosition(
+/*
+ * This function is used to get the current position of the nearest data point
+ * @param event - The mouse event
+ * @param x - The x axis
+ * @param data - The data
+ * @param y - The y axis
+ * @returns d, xPos, yPos
+ * d - The nearest data point
+ * xPos - The x position of the nearest data point
+ * yPos - The y position of the nearest data point
+ *
+ */
+
+export const getXyPosition = (
   event: React.MouseEvent<SVGSVGElement>,
   x: ScaleTime<number, number, never>,
   data: ChartDatum[],
   y: ScaleLinear<number, number, never>,
-) {
+) => {
   const [xCoord] = d3.pointer(event);
   const dateBisector = d3.bisector((d: ChartDatum) => d.Date).left;
   const x0: Date = x.invert(xCoord);
@@ -56,16 +81,19 @@ export function getXyPosition(
   const xPos = x(d.Date);
   const yPos = y(d.Close);
   return { d, xPos, yPos };
-}
+};
 
-export function onMouseLeave(
+/*
+ * This function is used to remove the tooltip when the mouse leaves the chart
+ */
+export const onMouseLeave = (
   listeningRect: d3.Selection<SVGRectElement, any, HTMLElement, any>,
   circle: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
   tooltip: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
   tooltipRawDate: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
   tooltipLineX: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
   tooltipLineY: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
-) {
+) => {
   listeningRect.on("mouseleave", function () {
     circle.transition().duration(50).attr("r", 0);
     tooltip.style("display", "none");
@@ -75,15 +103,15 @@ export function onMouseLeave(
     tooltipLineX.style("display", "none");
     tooltipLineY.style("display", "none");
   });
-}
+};
 
-export function setSvgDimensions(
+export const setSvgDimensions = (
   cwidth: number,
   margin: { top: number; left: number; bottom: number; right: number },
   cheight: number,
   svgRef: React.MutableRefObject<SVGSVGElement | null>,
   data: ChartDatum[],
-) {
+) => {
   const width = cwidth - margin.left - margin.right;
   const height = cheight - margin.top - margin.bottom;
 
@@ -108,7 +136,7 @@ export function setSvgDimensions(
     d3.extent(data, (d: ChartDatum) => d.Date)! as unknown as [Date, Date],
   );
   return { width, height, x, y, svg };
-}
+};
 
 export const addFixedHoverEffect = (
   svg: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
@@ -173,16 +201,15 @@ export const addFixedHoverEffect = (
   );
 };
 
-function getSvgDimenstions(
+export const getSvgDimenstions = (
   svg: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
-) {
-  // add in our tooltip
+) => {
   const svgXpos = svg.node()?.getBoundingClientRect().left;
   const svgWidth = svg.node()?.getBoundingClientRect().width;
   const svgHeight = svg.node()?.getBoundingClientRect().height;
   const svgTop = svg.node()?.getBoundingClientRect().top;
   return { svgXpos, svgWidth, svgHeight, svgTop };
-}
+};
 
 export const addHoverEffect = (
   svg: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
@@ -211,8 +238,7 @@ export const addHoverEffect = (
     // Add transition for the circle radius
     circle.transition().duration(50).attr("r", 5);
 
-    // Update the position of the red lines
-
+    // Update the position of the crosshair lines
     tooltipLineX
       .style("display", "block")
       .attr("x1", xPos)
@@ -243,8 +269,6 @@ export const addHoverEffect = (
       );
   });
 
-  // listening rectangle mouse leave function
-
   onMouseLeave(
     listeningRect,
     circle,
@@ -255,6 +279,9 @@ export const addHoverEffect = (
   );
 };
 
+/*
+ * This function is used to decide whether to display the fixed tooltip or the hover tooltip
+ */
 export const displayOnHover = (
   fixedTooltip: boolean,
   svg: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
