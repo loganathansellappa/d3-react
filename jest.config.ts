@@ -1,19 +1,23 @@
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 export default {
-    preset: 'ts-jest',
-    testEnvironment: 'jest-environment-jsdom',
-    transform: {
-        '^.+\\.tsx?$': 'ts-jest',
-        // process `*.tsx` files with `ts-jest`
-    },
-    rootDir: 'src',
-    moduleNameMapper: {
-        '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/test/__ mocks __/fileMock.js',
-        '^@app/(.*)$': '<rootDir>/$1',
-    },
-    testPathIgnorePatterns: ['/node_modules/', 'dist', '@types'],
-    collectCoverage: true,
-    collectCoverageFrom: ['src/**/*.{ts,js,tsx,jsx}'],
-    coverageDirectory: 'coverage',
-    coverageReporters: ['text', 'cobertura', 'text-summary', 'clover', 'lcov'],
-    coveragePathIgnorePatterns: ['/node_modules/', 'dist'],
+  testEnvironment: "jsdom",
+  transform: {
+    "^.+\\.tsx?$": "babel-jest", // Babel only used in Jest. Vite uses esbuild internally
+  },
+  moduleNameMapper: {
+    "^.+\\.(css|less|scss)$": "babel-jest",
+    "^d3$": "<rootDir>/node_modules/d3/dist/d3.min.js",
+  },
+  testPathIgnorePatterns: [
+    "/node_modules/",
+    "dist",
+    "@types",
+    "src/utils/test.ts",
+  ],
+  collectCoverage: true,
+  collectCoverageFrom: ["src/**/*.{ts,js,tsx,jsx}"],
+  coverageDirectory: "coverage",
+  coverageReporters: ["text", "cobertura", "text-summary", "clover", "lcov"],
+  coveragePathIgnorePatterns: ["/node_modules/", "dist", "/coverage/"],
+  preset: "ts-jest/presets/js-with-ts",
 };

@@ -545,13 +545,13 @@ exports[`Overview renders Overview component 1`] = `
             <path
               class="area"
               d="MNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690LNaN,690Z"
-              style="fill: #85bb65; opacity: 0.5;"
+              style="fill: #007bff; opacity: 0.5;"
             />
             <path
               class="line"
               d="MNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaNLNaN,NaN"
               fill="none"
-              stroke="#85bb65"
+              stroke="#007bff"
               stroke-width="1"
             />
             <circle

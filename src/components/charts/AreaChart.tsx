@@ -63,7 +63,7 @@ export const AreaChart: React.FC<AreaChartProps> = ({
       .datum(data)
       .attr("class", "area")
       .attr("d", area)
-      .style("fill", "#85bb65")
+      .style("fill", "#007bff")
       .style("opacity", 0.5);
 
     // Add the line path
@@ -72,7 +72,7 @@ export const AreaChart: React.FC<AreaChartProps> = ({
       .datum(data)
       .attr("class", "line")
       .attr("fill", "none")
-      .attr("stroke", "#85bb65")
+      .attr("stroke", "#007bff")
       .attr("stroke-width", 1)
       .attr("d", line);
 
