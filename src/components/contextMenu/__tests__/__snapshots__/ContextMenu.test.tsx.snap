@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContextMenu renders ContextMenu component 1`] = `
+<div
+  class="context-menu"
+  style="top: 0px; left: 0px;"
+>
+  <a
+    class="context-menu-item"
+    href="/ValueOne"
+  >
+    NameOne
+  </a>
+  <a
+    class="context-menu-item"
+    href="/ValueTwo"
+  >
+    NameTwo
+  </a>
+</div>
+`;

@@ -1,0 +1,11 @@
+.chart-container {
+  display: flex;
+  width: 80%;
+}
+
+rect.background-area-rect {
+  pointer-events: all;
+  fill-opacity: 0;
+  stroke-opacity: 0;
+  z-index: 1;
+}

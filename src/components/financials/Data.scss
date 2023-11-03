@@ -1,0 +1,12 @@
+.data {
+  display: flex;
+  flex-direction: column;
+  align-content: space-evenly;
+  padding-bottom: 200px;
+
+  .button-container {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+}

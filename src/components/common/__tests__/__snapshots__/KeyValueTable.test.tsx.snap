@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`KeyValueTable renders KeyValueTable component 1`] = `
+<table>
+  <thead>
+    <tr>
+      <th>
+        Name
+      </th>
+      <th>
+        Value
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        name
+      </td>
+      <td>
+        NameOne
+      </td>
+      <td>
+        NameTwo
+      </td>
+    </tr>
+    <tr>
+      <td>
+        value
+      </td>
+      <td>
+        ValueOne
+      </td>
+      <td>
+        ValueTwo
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

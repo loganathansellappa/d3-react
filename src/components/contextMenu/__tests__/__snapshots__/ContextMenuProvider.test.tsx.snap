@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContextMenuProvider renders ContextMenuProvider component 1`] = `
+<div>
+  <div
+    class="child-element"
+  >
+    Child Element
+  </div>
+</div>
+`;

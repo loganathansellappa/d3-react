@@ -1,0 +1,53 @@
+.chart-container {
+  display: flex;
+  width: 80%;
+}
+
+rect.background-rect {
+  pointer-events: all;
+  fill-opacity: 0;
+  stroke-opacity: 0;
+  z-index: 1;
+}
+
+/* Style the rect element with the "background-rect" class */
+.rect.background-rect {
+  fill-opacity: 1;
+  stroke-opacity: 0;
+  z-index: 1;
+}
+
+/* Style the rect element for crosshair interaction */
+rect.crosshair {
+  fill-opacity: 0;
+  stroke-opacity: 0;
+  z-index: 1;
+}
+
+.candle {
+  stroke-width: 1;
+}
+
+.candle.green {
+  fill: green;
+}
+
+.candle.red {
+  fill: red;
+}
+
+.wick {
+  stroke-width: 1;
+  stroke: black;
+}
+.tooltip {
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+}
