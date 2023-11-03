@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tabs renders Tabs component 1`] = `
+<div
+  class="tabs"
+>
+  <a
+    class="tab-link "
+    href="/overview"
+  >
+    Overview
+  </a>
+  <a
+    class="tab-link "
+    href="/balance"
+  >
+    Balance Sheet
+  </a>
+  <a
+    class="tab-link "
+    href="/income"
+  >
+    Income Statement
+  </a>
+  <a
+    class="tab-link "
+    href="/chart"
+  >
+    Chart
+  </a>
+</div>
+`;

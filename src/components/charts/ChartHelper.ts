@@ -151,8 +151,8 @@ export const addFixedHoverEffect = (
 
     tooltip
       .style("display", "block")
-      .style("left", svgXpos + svgWidth - 100 + "px")
-      .style("top", (svgHeight + svgTop) / 4 + "px")
+      .style("left", svgXpos! + svgWidth! - 100 + "px")
+      .style("top", (svgHeight! + svgTop!) / 4 + "px")
       .html(
         `<ul>
                             <li>Date: ${d.Date.toISOString().slice(0, 10)}</li>
@@ -177,10 +177,10 @@ function getSvgDimenstions(
   svg: d3.Selection<SVGSVGElement, any, HTMLElement, any>,
 ) {
   // add in our tooltip
-  const svgXpos = svg.node()?.getBoundingClientRect().left!;
-  const svgWidth = svg.node()?.getBoundingClientRect().width!;
-  const svgHeight = svg.node()?.getBoundingClientRect().height!;
-  const svgTop = svg.node()?.getBoundingClientRect().top!;
+  const svgXpos = svg.node()?.getBoundingClientRect().left;
+  const svgWidth = svg.node()?.getBoundingClientRect().width;
+  const svgHeight = svg.node()?.getBoundingClientRect().height;
+  const svgTop = svg.node()?.getBoundingClientRect().top;
   return { svgXpos, svgWidth, svgHeight, svgTop };
 }
 
@@ -230,14 +230,14 @@ export const addHoverEffect = (
 
     tooltip
       .style("display", "block")
-      .style("left", `${svgXpos + svgWidth}px`)
+      .style("left", `${svgXpos! + svgWidth!}px`)
       .style("top", `${yPos + 180}px`)
       .html(`$${d.Close !== undefined ? d.Close : "N/A"}`);
 
     tooltipRawDate
       .style("display", "block")
       .style("left", `${xPos + 200}px`)
-      .style("top", `${svgHeight + svgTop - 100}px`)
+      .style("top", `${svgHeight! + svgTop! - 100}px`)
       .html(
         `${d.Date !== undefined ? d.Date.toISOString().slice(0, 10) : "N/A"}`,
       );

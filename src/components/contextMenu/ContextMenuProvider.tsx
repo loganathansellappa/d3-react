@@ -1,11 +1,13 @@
 // Layout.tsx
 import React, { useState } from "react";
 import { ContextMenu } from "./ContextMenu";
-interface LayoutProps {
+export interface ContextMenuProviderProps {
   children: React.ReactNode;
 }
 
-export const ContextMenuProvider: React.FC<LayoutProps> = ({ children }) => {
+export const ContextMenuProvider: React.FC<ContextMenuProviderProps> = ({
+  children,
+}) => {
   const [contextMenu, setContextMenu] = useState<{
     show: boolean;
     top: number;
@@ -24,7 +26,6 @@ export const ContextMenuProvider: React.FC<LayoutProps> = ({ children }) => {
 
   const handleContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
-    console.log("Right Click");
     setContextMenu({ show: true, top: e.clientY, left: e.clientX });
   };
 

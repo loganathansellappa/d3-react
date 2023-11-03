@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button renders Button component 1`] = `
+<div
+  class="button-container"
+>
+  <button
+    class="button button-active"
+  >
+    labelOne
+  </button>
+  <button
+    class="button "
+  >
+    labelTwo
+  </button>
+</div>
+`;

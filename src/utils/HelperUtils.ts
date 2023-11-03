@@ -1,5 +1,5 @@
-import {TimeSeriesDataType} from "../@types/zodSchema";
-import {ChartDatum} from "../@types/ChartData";
+import { TimeSeriesDataType } from "../@types/zodSchema";
+import { ChartDatum } from "../@types/ChartData";
 
 export type ServerConfig = {
   baseUrl: string;
@@ -12,8 +12,9 @@ export const serverData = () => {
   } as ServerConfig;
 };
 
-
-export const transformTimeSeriesDaily = (data: Record<string, TimeSeriesDataType>) => {
+export const transformTimeSeriesDaily = (
+  data: Record<string, TimeSeriesDataType>,
+) => {
   const keyMapping: Record<string, string> = {
     "1. open": "open",
     "2. high": "high",
@@ -34,10 +35,10 @@ export const transformTimeSeriesDaily = (data: Record<string, TimeSeriesDataType
       if (keyMapping[oldKey]) {
         innerObject[oldKey] = +innerObject[oldKey];
         transformedInnerObject[newKey as keyof ChartDatum] =
-            innerObject[oldKey];
+          innerObject[oldKey];
       } else {
         transformedInnerObject[newKey as keyof ChartDatum] =
-            innerObject[oldKey];
+          innerObject[oldKey];
       }
     }
 

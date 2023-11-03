@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./ContextMenu.scss"; // Make sure to import your SCSS file
 
-interface ContextMenuProps {
+export interface ContextMenuProps {
   showMenu: boolean;
   position: { top: number; left: number };
   options: { to: string; label: string }[];

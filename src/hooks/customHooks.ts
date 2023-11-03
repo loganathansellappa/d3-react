@@ -8,12 +8,12 @@ import {
   TimeSeriesDailySchema,
 } from "../@types/zodSchema";
 import { z } from "zod";
-import {serverData, transformTimeSeriesDaily} from "../utils/HelperUtils";
+import { serverData, transformTimeSeriesDaily } from "../utils/HelperUtils";
 
 const TransformedTimeSeriesDailySchema = TimeSeriesDailySchema.transform(
   (data) => transformTimeSeriesDaily(data["Time Series (Daily)"]),
 );
-const fetchData = async (fn: string = "OVERVIEW") => {
+export const fetchData = async (fn: string = "OVERVIEW") => {
   const url = `${serverData().baseUrl}?function=${fn}&symbol=IBM&apikey=${
     serverData().apiKey
   }`;
@@ -38,5 +38,3 @@ export function useApi(fn: string = "OVERVIEW") {
     queryFn: () => fetchData(fn),
   });
 }
-
-

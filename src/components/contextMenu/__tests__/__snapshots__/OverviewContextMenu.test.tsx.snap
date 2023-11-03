@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OverviewContextMenu renders Button component 1`] = `
+<div
+  class="context-menu"
+>
+  <a
+    href="/balance"
+  >
+    Balance Sheet
+  </a>
+  <a
+    href="/income"
+  >
+    Income Statement
+  </a>
+  <a
+    href="/chart"
+  >
+    Chart
+  </a>
+</div>
+`;

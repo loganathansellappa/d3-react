@@ -71,7 +71,6 @@ export const Chart: React.FC<ChartProps> = ({
         labelOne={"Area Chart"}
         labelTwo={"Candle Chart"}
       />
-
       {getChart()}
     </div>
   );

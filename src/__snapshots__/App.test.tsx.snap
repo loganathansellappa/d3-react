@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders App component 1`] = `
+<div>
+  <div
+    class="app-component"
+  >
+    <div
+      class="tabs"
+    >
+      <a
+        class="tab-link "
+        href="/overview"
+      >
+        Overview
+      </a>
+      <a
+        class="tab-link "
+        href="/balance"
+      >
+        Balance Sheet
+      </a>
+      <a
+        class="tab-link "
+        href="/income"
+      >
+        Income Statement
+      </a>
+      <a
+        class="tab-link "
+        href="/chart"
+      >
+        Chart
+      </a>
+    </div>
+    <div
+      class="content"
+    >
+      <div
+        class="spinner-container"
+      >
+        <div
+          class="loading-spinner"
+          style="border: 4px solid #0073e6; border-top: 4px solid transparent; border-radius: 50%; width: 40px; height: 40px; animation: spin 2s linear infinite;"
+        />
+      </div>
+    </div>
+    <footer
+      class="footer"
+    >
+      @Demo App 
+    </footer>
+  </div>
+</div>
+`;
