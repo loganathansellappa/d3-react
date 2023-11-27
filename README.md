@@ -1,6 +1,4 @@
 # React + TypeScript + D3JS
-### Brief
-
 
 ### Tasks
 - Create an overview of the IBM stock and financial data in a tabbed environment.
@@ -15,11 +13,6 @@
 - Use css or sass modules but do not use third party css frameworks
 - Write at least one test suite for a simple component of your choice.
 - App has context menu
-
-### Todo
-- The implementation includes only basic d3js charts can be improved further with more features like slide , zoom and so on
-- The implementation includes only basic test cases can be improved further with more test cases.
-
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 # The React+Typescript Demo App
 
